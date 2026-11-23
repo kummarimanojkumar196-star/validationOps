@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from validationops!")
+"""ValidationOps: triage failed CI and validation test runs."""
