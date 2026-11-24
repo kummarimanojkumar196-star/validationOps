@@ -14,3 +14,16 @@ curl localhost:8000/health                              # -> {"status":"ok"}
 ```
 
 Interactive API docs: http://localhost:8000/docs
+
+## Local infrastructure (Step 2)
+
+```bash
+cp .env.example .env                 # first time only
+docker compose up -d                 # start Postgres and Redis
+uv run uvicorn validationops.api.main:app --reload
+curl localhost:8000/health           # -> {"status":"ok","db":"ok","redis":"ok"}
+
+docker compose stop redis            # take Redis down
+curl -i localhost:8000/health        # -> 503, redis "down"
+docker compose up -d                 # bring it back
+```
