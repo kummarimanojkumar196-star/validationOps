@@ -27,3 +27,15 @@ docker compose stop redis            # take Redis down
 curl -i localhost:8000/health        # -> 503, redis "down"
 docker compose up -d                 # bring it back
 ```
+
+## Database migrations (Step 3)
+
+```bash
+docker compose up -d                 # Postgres must be running
+uv run alembic upgrade head          # create the tables
+uv run alembic current               # show the applied revision
+
+# inspect the tables:
+docker compose exec postgres psql -U validationops -c "\dt"
+docker compose exec postgres psql -U validationops -c "\d failure_events"
+```
